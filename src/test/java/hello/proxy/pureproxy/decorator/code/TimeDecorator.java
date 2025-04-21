@@ -3,22 +3,24 @@ package hello.proxy.pureproxy.decorator.code;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class TimeDecorator implements Component {
-
-  private Component component;
+public class TimeDecorator extends AbstractDecorator {
 
   public TimeDecorator(Component component) {
-    this.component = component;
+    super(component);
   }
 
   @Override
-  public String operation() {
-    log.info("TimeDecorator 실행");
+  protected String doOperation(String result) {
     long startTime = System.currentTimeMillis();
-    String result = component.operation();
+    String operationResult = result;
     long endTime = System.currentTimeMillis();
     long resultTime = endTime - startTime;
     log.info("TimeDecorator 종료 resultTime={}ms", resultTime);
-    return result;
+    return operationResult;
+  }
+
+  @Override
+  protected String getDecoratorName() {
+    return "TimeDecorator";
   }
 }
